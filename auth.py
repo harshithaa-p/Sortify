@@ -12,7 +12,7 @@ def get_auth_manager():
     return SpotifyOAuth(
         client_id=os.getenv("SPOTIPY_CLIENT_ID"),
         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
-        redirect_uri="http://127.0.0.1:8501",
+        redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
         scope=SCOPE,
         cache_path=None,
         show_dialog=True
