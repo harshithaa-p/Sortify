@@ -20,17 +20,28 @@ def get_auth_manager():
 
 def get_spotify_client():
     auth_manager = get_auth_manager()
-    code = st.query_params.get("code")
+    
+    # Get all query params
+    params = st.query_params
+    code = params.get("code")
+    error = params.get("error")
 
-    if code and 'token_info' not in st.session_state:
-        try:
-            token_info = auth_manager.get_access_token(code, as_dict=True)
-            st.session_state['token_info'] = token_info
-            st.query_params.clear()
-            st.rerun()
-        except Exception as e:
-            st.error(f"Login failed: {e}")
-            return None
+    if error:
+        st.error(f"Spotify login error: {error}")
+        st.query_params.clear()
+        return None
+
+    if code:
+        if 'token_info' not in st.session_state:
+            try:
+                token_info = auth_manager.get_access_token(str(code), as_dict=True)
+                st.session_state['token_info'] = token_info
+            except Exception as e:
+                st.error(f"Token error: {e}")
+                st.query_params.clear()
+                return None
+        st.query_params.clear()
+        st.rerun()
 
     if 'token_info' not in st.session_state:
         return None
@@ -43,7 +54,7 @@ def get_spotify_client():
             st.session_state['token_info'] = token_info
         except:
             st.session_state.clear()
-            st.rerun()
+            return None
 
     return spotipy.Spotify(auth=token_info['access_token'])
 
