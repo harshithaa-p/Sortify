@@ -44,6 +44,7 @@ def get_spotify_client():
 def login_button():
     auth_manager = get_auth_manager()
     auth_url = auth_manager.get_authorize_url()
+    st.write(f"Debug URL: {auth_url}")
     st.markdown(f'''
         <a href="{auth_url}" target="_self">
             <button style="
