@@ -22,6 +22,7 @@ if st.sidebar.button("Logout"):
     st.rerun()
 
 user = sp.current_user()
+st.write(f"Logged in as: {user['id']} - {user['display_name']}")
 st.sidebar.write(f"Logged in as **{user['display_name']}**")
 
 def load_data(user_id):
