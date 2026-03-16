@@ -57,7 +57,7 @@ def load_data(user_id):
 
     return pd.DataFrame(all_tracks)
 
-with st.spinner("Loading your playlists... this may take a minute"):
+with st.spinner("🎵 Fetching your playlists for the first time... this takes 1-2 minutes but won't happen again!"):
     df = load_data(user['id'])
 
 if df.empty:
