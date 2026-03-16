@@ -44,19 +44,4 @@ def get_spotify_client():
 def login_button():
     auth_manager = get_auth_manager()
     auth_url = auth_manager.get_authorize_url()
-    st.markdown(f'''
-        <a href="{auth_url}" target="_top">
-            <button style="
-                background-color:#1DB954;
-                color:white;
-                padding:12px 24px;
-                border:none;
-                border-radius:25px;
-                font-size:16px;
-                cursor:pointer;
-                font-weight:bold;
-            ">
-                Login with Spotify
-            </button>
-        </a>
-    ''', unsafe_allow_html=True)
+    st.link_button("Login with Spotify 🎵", auth_url)
