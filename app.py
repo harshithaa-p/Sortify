@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from auth import get_spotify_client, login_button
+if 'token_info' in st.session_state:
+    if st.session_state.get('last_user') != st.session_state.get('token_info', {}).get('access_token', '')[:10]:
+        st.session_state.clear()
 
 st.set_page_config(page_title="Sortify", page_icon="🎵", layout="wide")
 
@@ -18,7 +21,7 @@ if sp is None:
 
 # Logout button
 if st.sidebar.button("Logout"):
-    del st.session_state['token_info']
+    st.session_state.clear()
     st.rerun()
 
 user = sp.current_user()
