@@ -35,7 +35,10 @@ def load_data(user_id):
         })
 
     all_tracks = []
-    for playlist in playlists_data:
+    progress = st.progress(0)
+    total = len(playlists_data)
+    
+    for idx, playlist in enumerate(playlists_data):
         try:
             results = sp.playlist_items(playlist['id'])
             while results:
@@ -54,9 +57,9 @@ def load_data(user_id):
                 results = sp.next(results) if results['next'] else None
         except:
             pass
+        progress.progress((idx + 1) / total)
 
     return pd.DataFrame(all_tracks)
-
 with st.spinner("🎵 Fetching your playlists for the first time... this takes 1-2 minutes but won't happen again!"):
     df = load_data(user['id'])
 
