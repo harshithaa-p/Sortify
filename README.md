@@ -28,11 +28,7 @@ A personal Spotify analytics dashboard that lets you deep-dive into your playlis
 
 ---
 
-## Screenshots
 
-> Add screenshots here
-
----
 
 ## Run Locally
 
