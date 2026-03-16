@@ -46,7 +46,7 @@ def login_button():
     auth_url = auth_manager.get_authorize_url()
     st.write(f"Debug URL: {auth_url}")
     st.markdown(f'''
-        <a href="{auth_url}" target="_self">
+        <a href="{auth_url}" target="_top">
             <button style="
                 background-color:#1DB954;
                 color:white;
