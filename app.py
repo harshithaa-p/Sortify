@@ -60,7 +60,11 @@ def load_data(user_id):
         progress.progress((idx + 1) / total)
 
     return pd.DataFrame(all_tracks)
-with st.spinner("🎵 Fetching your playlists for the first time... this takes 1-2 minutes but won't happen again!"):
+if 'last_user' not in st.session_state or st.session_state['last_user'] != user['id']:
+    st.cache_data.clear()
+    st.session_state['last_user'] = user['id']
+
+with st.spinner("🎵 Fetching your playlists..."):
     df = load_data(user['id'])
 
 if df.empty:
