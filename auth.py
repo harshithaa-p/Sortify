@@ -20,25 +20,31 @@ def get_auth_manager():
 
 def get_spotify_client():
     auth_manager = get_auth_manager()
-    
-    # Check if we have a code in the URL
     code = st.query_params.get("code")
-    
-    if code:
-        token_info = auth_manager.get_access_token(code, as_dict=True)
-        st.session_state['token_info'] = token_info
-        st.query_params.clear()
-        st.rerun()
-    
+
+    if code and 'token_info' not in st.session_state:
+        try:
+            token_info = auth_manager.get_access_token(code, as_dict=True)
+            st.session_state['token_info'] = token_info
+            st.query_params.clear()
+            st.rerun()
+        except Exception as e:
+            st.error(f"Login failed: {e}")
+            return None
+
     if 'token_info' not in st.session_state:
         return None
-    
+
     token_info = st.session_state['token_info']
-    
+
     if auth_manager.is_token_expired(token_info):
-        token_info = auth_manager.refresh_access_token(token_info['refresh_token'])
-        st.session_state['token_info'] = token_info
-    
+        try:
+            token_info = auth_manager.refresh_access_token(token_info['refresh_token'])
+            st.session_state['token_info'] = token_info
+        except:
+            st.session_state.clear()
+            st.rerun()
+
     return spotipy.Spotify(auth=token_info['access_token'])
 
 def login_button():
