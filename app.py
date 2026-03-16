@@ -24,7 +24,6 @@ if st.sidebar.button("Logout"):
 user = sp.current_user()
 st.sidebar.write(f"Logged in as **{user['display_name']}**")
 
-@st.cache_data(ttl=3600)
 def load_data(user_id):
     playlists_data = []
     results = sp.current_user_playlists()
